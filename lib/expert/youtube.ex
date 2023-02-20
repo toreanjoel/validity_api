@@ -41,7 +41,6 @@ defmodule ValidityServer.Expert.Youtube do
   defp get_captions(tracks) do
     for item <- tracks do
       %{id: item["id"], language: item["snippet"]["language"], video_id: item["snippet"]["videoId"]}
-      download_caption(item["id"], @api_key)
     end
   end
 

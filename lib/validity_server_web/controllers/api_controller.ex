@@ -11,8 +11,6 @@ defmodule ValidityServerWeb.ApiController do
     This allows to limit requests - making it manual for free users and auto for paid
   """
   def index(conn, _params) do
-    IO.inspect("API controller")
-
     return(conn, 200, %{"message" => "Hello world"})
   end
 

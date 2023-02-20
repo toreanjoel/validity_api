@@ -8,7 +8,7 @@ defmodule ValidityServerWeb.OAuthController do
   @redirect_url "http://localhost:4000/oauth/callback"
   @client_id System.get_env("CLIENT_ID")
   @client_secret System.get_env("CLIENT_SECRET")
-  @scope "https://www.googleapis.com/auth/youtube.readonly https://www.googleapis.com/auth/youtube.force-ssl"
+  @scope "https://www.googleapis.com/auth/youtube.force-ssl"
   @resp_type "code"
 
   def authorize(conn, _params) do
@@ -38,8 +38,11 @@ defmodule ValidityServerWeb.OAuthController do
     %OAuth2.Client{token: %OAuth2.AccessToken{access_token: token}} = OAuth2.Client.get_token!(client, code: code)
     token_data = Jason.decode!(token)
     # Store the access token in the session
-    IO.puts(token_data["access_token"])
     conn = put_session(conn, :access_token, token_data["access_token"])
+    conn = %{conn | assigns: %{}} # ensure assigns is present in conn
+    conn_with_token = Map.put(conn.assigns, :access_token, token_data["access_token"])
+    conn = %{conn | assigns: conn_with_token}
+    IO.inspect(conn)
     redirect(conn, to: "/api/")
   end
 end

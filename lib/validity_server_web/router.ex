@@ -15,6 +15,10 @@ defmodule ValidityServerWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :auth do
+    plug Plugs.Auth
+  end
+
   # AUTH -- START
   scope "/oauth", ValidityServerWeb do
     pipe_through [:browser]
@@ -27,7 +31,7 @@ defmodule ValidityServerWeb.Router do
 
   # API -- START
   scope "/api" do
-    pipe_through :api
+    pipe_through [:api, :auth]
 
     # API routes
     get "/", ApiController, :index
