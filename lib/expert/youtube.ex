@@ -19,6 +19,11 @@ defmodule ValidityServer.Expert.Youtube do
     end
   end
 
+  #TODO
+  # https://stackoverflow.com/questions/46864428/how-do-some-sites-download-youtube-captions
+
+  # https://downsub.com/
+
   @doc """
     Takes a response and check the statuses to return the relevant decoded response body
   """

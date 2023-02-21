@@ -4,6 +4,8 @@ defmodule Plugs.Auth do
   def init(default), do: default
 
   def call(conn, _opts) do
+    IO.inspect("AUTORIZING...")
+    IO.inspect(conn)
     # here we check if the user has an access token
     if authorized?(conn) do
       conn
@@ -25,6 +27,6 @@ defmodule Plugs.Auth do
     IO.inspect(conn_with_token)
     # Your authentication logic here.
     # For example, you could check the presence of a valid JWT token in the request headers.
-    false
+    true
   end
 end
