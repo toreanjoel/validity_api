@@ -2,6 +2,8 @@ defmodule ValidityServerWeb.ApiController do
   use ValidityServerWeb, :controller
   import Plug.Conn
 
+  alias ValidityServer.Expert.Transcriptions, as: Transcriptions
+
   @doc """
     The entry point of the application, just returns a hello for now
 
@@ -11,21 +13,21 @@ defmodule ValidityServerWeb.ApiController do
     This allows to limit requests - making it manual for free users and auto for paid
   """
   def index(conn, _params) do
-    return(conn, 200, %{"message" => "Hello world"})
+    return(conn, 200,
+    %{"message" => "Welcome - Validity returns the credibility of statements, returns a score and link on wiki for ref"})
   end
 
   @doc """
     The request to check taking the data sent from the post to do the check
   """
-  def validate(conn, body) do
-    IO.inspect(body)
+  def validate(conn, %{"id" => video_id}) do
     # pull out the data from the body of the request
 
     # Get the Youtube captions
-    {_status, resp} = fetch_captions("ID")
+    {_status, resp} = fetch_captions(video_id)
 
     # Summarize the captions
-    {_status, resp} = fetch_captions(resp)
+    {_status, resp} = summarize_text(resp)
 
     # Prompt with the captions to validate credibility
     {_status, resp} = check_validity(resp)
@@ -43,16 +45,21 @@ defmodule ValidityServerWeb.ApiController do
 
   # request against Youtube API to get captions off of a video
   defp fetch_captions(video_id) do
-    {:ok, "captions"}
+    resp = Transcriptions.get_transcription(video_id)
+    {:ok, resp}
   end
 
   # take in data and summarize it
   defp summarize_text(data) do
+    resp = Transcriptions.get_transcription_text(data)
+    IO.inspect(resp)
+    raise "error"
     {:ok, "summary"}
   end
 
   # pass the string to prompt against OpenAI to verify validity
-  defp check_validity(string) do
+  defp check_validity(data) do
+    IO.puts(data)
     {:ok, "validity_score"}
   end
 end
