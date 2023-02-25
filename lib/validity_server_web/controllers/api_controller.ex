@@ -5,13 +5,19 @@ defmodule ValidityServerWeb.ApiController do
 
   alias ValidityServer.Expert.Transcriptions, as: Transcriptions
   alias ValidityServer.Expert.Gpt, as: Gpt
+  alias ValidityServer.Expert.Summarize, as: Summarize
 
   @moduledoc """
     TODO:
      - limit by category? Tags? - Educational ect
      - limit to video size 15-20min video
-     - simmarize text for prompts
+     - simmarize text for prompts (fix this)
      - error handling
+     - move extention in the same project and update git
+     - research ui for extention (fiverr)
+     - add compare based off title?
+     - Design extention landing page
+     - planning auth and paid tier
   """
 
   @doc """
@@ -61,16 +67,18 @@ defmodule ValidityServerWeb.ApiController do
 
   # take in data and summarize it
   defp summarize_text(data) do
-    Logger.info(data)
-    # {_status, resp} = Gpt.prompt_summarize(data)
-    # Logger.info(resp)
+    {_status, resp} = Summarize.summarize(data)
+    Logger.info("resp")
+    Logger.info("resp")
+    Logger.info(resp)
     {:ok, data}
   end
 
   # pass the string to prompt against OpenAI to verify validity
   defp check_validity(data) do
     # IO.puts(data)
-    {status, resp} = Gpt.prompt_validity(data)
+    {_status, text} = summarize_text(data)
+    {status, resp} = Gpt.prompt_validity(text)
     case status do
       :ok -> {:ok, resp}
       _ -> {:error, "There was an error checking the validity of the statement of the video"}

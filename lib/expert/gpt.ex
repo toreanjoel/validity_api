@@ -7,7 +7,7 @@ defmodule ValidityServer.Expert.Gpt do
   # API key
   @api_key System.get_env("OPEN_API")
   # prompt
-  @prompt_validity "Rate the validity of a statement out of 10 (where 10 is true) and give a 30-word reason. Use \" || \" to split the rating and response. Add a wiki short link if needed."
+  @prompt_validity "Rate the validity of a statement out of 10 (where 10 is true) and give a 30-word reason. Use \" || \" to split the rating and response - be strict about it. Add a wiki short link if needed."
   @url "https://api.openai.com/v1/completions"
   # body
   @body %{

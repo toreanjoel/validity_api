@@ -8,7 +8,7 @@ def get_transcription(input):
 
     for text in transcript:
         t = text["text"]
-        script += t + " - "
+        script += t + ". "
 		
     return script, len(script.split())
 
