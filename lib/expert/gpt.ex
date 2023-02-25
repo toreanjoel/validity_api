@@ -7,12 +7,12 @@ defmodule ValidityServer.Expert.Gpt do
   # API key
   @api_key System.get_env("OPEN_API")
   # prompt
-  @prompt "Rate the validity of a statement out of 10 (where 10 is true) and give a 30-word reason. Use \" || \" to split the rating and response. Add a wiki short link if needed."
+  @prompt_validity "Rate the validity of a statement out of 10 (where 10 is true) and give a 30-word reason. Use \" || \" to split the rating and response. Add a wiki short link if needed."
   @url "https://api.openai.com/v1/completions"
   # body
   @body %{
-    "max_tokens" => 512,
-    "temperature" => 0.4,
+    "max_tokens" => 256,
+    "temperature" => 0.7,
     "model" => "text-davinci-003"
   }
   # header
@@ -28,23 +28,22 @@ defmodule ValidityServer.Expert.Gpt do
     NOTE: This module will have set the params to a manageable temp and potentially limit input
     See body
   """
-  def prompt(msg) do
+  def prompt_validity(msg) do
     prompt = """
-    #{@prompt}
+    #{@prompt_validity}
     #{msg}
     """
     body_payload = Map.put(@body, "prompt", prompt)
     {status, resp} = HTTPoison.post(@url, Jason.encode!(body_payload), @headers, recv_timeout: @timeout)
     case status do
       :error ->
-        Logger.error("Error on the request", resp)
-        raise "There was an error with the request"
-      :ok -> handle_resp(resp)
+        {:error, "There was an error: #{resp}"}
+      :ok -> handle_validity_resp(resp)
     end
   end
 
   # Handle the success reponse and its codes that came back from the HTTP post
-  defp handle_resp(resp) do
+  defp handle_validity_resp(resp) do
     case resp.status_code do
       400 -> {:error, "There was an error: #{Jason.decode!(resp.body)}"}
       200 ->
@@ -72,7 +71,7 @@ defmodule ValidityServer.Expert.Gpt do
 
     %{
       "score" => String.trim(Enum.at(split, 0) <> "/ 10"),
-      "desc" => Enum.at(split, 1),
+      "desc" => String.trim(Enum.at(split, 1)),
     }
   end
 end

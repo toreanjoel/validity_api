@@ -1,8 +1,18 @@
 defmodule ValidityServerWeb.ApiController do
   use ValidityServerWeb, :controller
+  require Logger
   import Plug.Conn
 
   alias ValidityServer.Expert.Transcriptions, as: Transcriptions
+  alias ValidityServer.Expert.Gpt, as: Gpt
+
+  @moduledoc """
+    TODO:
+     - limit by category? Tags? - Educational ect
+     - limit to video size 15-20min video
+     - simmarize text for prompts
+     - error handling
+  """
 
   @doc """
     The entry point of the application, just returns a hello for now
@@ -24,16 +34,15 @@ defmodule ValidityServerWeb.ApiController do
     # pull out the data from the body of the request
 
     # Get the Youtube captions
-    {_status, resp} = fetch_captions(video_id)
-
+    {status, resp} = fetch_captions(video_id)
     # Summarize the captions
-    {_status, resp} = summarize_text(resp)
-
-    # Prompt with the captions to validate credibility
-    {_status, resp} = check_validity(resp)
-
-    # assuming there was no errors, else we return relevant ones
-    return(conn, 200, resp)
+    case status do
+      :ok ->
+        {_status, resp} = check_validity(resp)
+        return(conn, 200, resp)
+      _ -> return(conn, 404, resp)
+    end
+    # {_status, resp} = summarize_text(resp)
   end
 
   # The response helper to return with conn
@@ -45,21 +54,26 @@ defmodule ValidityServerWeb.ApiController do
 
   # request against Youtube API to get captions off of a video
   defp fetch_captions(video_id) do
-    resp = Transcriptions.get_transcription(video_id)
-    {:ok, resp}
+    {status, resp} = Transcriptions.get_transcription(video_id)
+    IO.inspect(resp)
+    {status, resp}
   end
 
   # take in data and summarize it
   defp summarize_text(data) do
-    resp = Transcriptions.get_transcription_text(data)
-    IO.inspect(resp)
-    raise "error"
-    {:ok, "summary"}
+    Logger.info(data)
+    # {_status, resp} = Gpt.prompt_summarize(data)
+    # Logger.info(resp)
+    {:ok, data}
   end
 
   # pass the string to prompt against OpenAI to verify validity
   defp check_validity(data) do
-    IO.puts(data)
-    {:ok, "validity_score"}
+    # IO.puts(data)
+    {status, resp} = Gpt.prompt_validity(data)
+    case status do
+      :ok -> {:ok, resp}
+      _ -> {:error, "There was an error checking the validity of the statement of the video"}
+    end
   end
 end

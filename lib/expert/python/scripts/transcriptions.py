@@ -3,7 +3,14 @@ from youtube_transcript_api import YouTubeTranscriptApi
 
 # get transcriptions of the video
 def get_transcription(input):
-    return YouTubeTranscriptApi.get_transcript(input)
+    transcript = YouTubeTranscriptApi.get_transcript(input)
+    script = ""
+
+    for text in transcript:
+        t = text["text"]
+        script += t + " - "
+		
+    return script, len(script.split())
 
 # check the main function
 # take args as params to pass to function
