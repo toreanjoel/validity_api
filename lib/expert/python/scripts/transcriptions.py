@@ -5,12 +5,14 @@ from youtube_transcript_api import YouTubeTranscriptApi
 def get_transcription(input):
     transcript = YouTubeTranscriptApi.get_transcript(input)
     script = ""
+    # check for the first 5min then stop
+    for caption in transcript:
+        # Below is the limit for how much we are taking
+        if caption["start"] > 120:
+            t = caption["text"]
+            script += t + ". "
 
-    for text in transcript:
-        t = text["text"]
-        script += t + ". "
-		
-    return script, len(script.split())
+    return script
 
 # check the main function
 # take args as params to pass to function
