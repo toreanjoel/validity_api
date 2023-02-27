@@ -49,6 +49,7 @@ defmodule ValidityServer.Expert.Gpt do
 
   # Handle the success reponse and its codes that came back from the HTTP post
   defp handle_validity_resp(resp) do
+    IO.inspect(resp)
     case resp.status_code do
       400 ->
         {

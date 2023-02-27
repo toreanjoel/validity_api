@@ -8,7 +8,7 @@
 import Config
 
 # Configures the endpoint
-config :validity_server, ValidityServerWeb.Endpoint,
+config :validity_api, ValidityServerWeb.Endpoint,
   url: [host: "localhost"],
   render_errors: [view: ValidityServerWeb.ErrorView, accepts: ~w(html json), layout: false],
   pubsub_server: ValidityServer.PubSub,
@@ -21,7 +21,7 @@ config :validity_server, ValidityServerWeb.Endpoint,
 #
 # For production it's recommended to configure a different adapter
 # at the `config/runtime.exs`.
-config :validity_server, ValidityServer.Mailer, adapter: Swoosh.Adapters.Local
+config :validity_api, ValidityServer.Mailer, adapter: Swoosh.Adapters.Local
 
 # Swoosh API client is needed for adapters other than SMTP.
 config :swoosh, :api_client, false

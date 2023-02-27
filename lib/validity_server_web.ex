@@ -29,7 +29,7 @@ defmodule ValidityServerWeb do
   def view do
     quote do
       use Phoenix.View,
-        root: "lib/validity_server_web/templates",
+        root: "lib/validity_api_web/templates",
         namespace: ValidityServerWeb
 
       # Import convenience functions from controllers

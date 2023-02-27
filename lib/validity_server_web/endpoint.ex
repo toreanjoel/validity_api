@@ -1,12 +1,12 @@
 defmodule ValidityServerWeb.Endpoint do
-  use Phoenix.Endpoint, otp_app: :validity_server
+  use Phoenix.Endpoint, otp_app: :validity_api
 
   # The session will be stored in the cookie and signed,
   # this means its contents can be read but not tampered with.
   # Set :encryption_salt if you would also like to encrypt it.
   @session_options [
     store: :cookie,
-    key: "_validity_server_key",
+    key: "_validity_api_key",
     signing_salt: "x+hpQQ6b"
   ]
 
@@ -18,7 +18,7 @@ defmodule ValidityServerWeb.Endpoint do
   # when deploying your static files in production.
   plug Plug.Static,
     at: "/",
-    from: :validity_server,
+    from: :validity_api,
     gzip: false,
     only: ~w(assets fonts images favicon.ico robots.txt)
 
