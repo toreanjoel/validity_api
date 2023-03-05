@@ -46,7 +46,8 @@ defmodule ValidityServer.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:dotenv, "~> 2.0"},
       {:httpoison, "~> 1.8"},
-      {:poison, "~> 5.0"}
+      {:poison, "~> 5.0"},
+      {:corsica, "~> 1.0"}
     ]
   end
 

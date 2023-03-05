@@ -13,6 +13,7 @@ defmodule ValidityServerWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug Corsica, origins: "https://www.youtube.com"
   end
 
   # API -- START

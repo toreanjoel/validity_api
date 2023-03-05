@@ -4,7 +4,7 @@ from gensim.summarization import summarize
 # get summart of text
 def summarize_text(input):
     # NOTE: we need to pass the value for the summary
-    return summarize(input, word_count = 350)
+    return summarize(input, word_count = 400)
 
 # check the main function
 # take args as params to pass to function

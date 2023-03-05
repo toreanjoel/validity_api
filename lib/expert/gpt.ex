@@ -6,7 +6,8 @@ defmodule ValidityServer.Expert.Gpt do
   alias ValidityServer.Expert.ReponseHelper, as: Response
 
   # API key
-  @api_key System.get_env("OPEN_API")
+  @api_key System.get_env("OPEN_AI_API")
+  @model System.get_env("OPEN_AI_MODEL")
   # prompt
   @prompt_validity "Rate the validity of a statement out of 10 (where 10 is true) and give a limited 25 word response. Use \" || \" to split the rating and response. Add a link to a wiki link if applicable."
   @url "https://api.openai.com/v1/completions"
@@ -14,7 +15,7 @@ defmodule ValidityServer.Expert.Gpt do
   @body %{
     "max_tokens" => 128,
     "temperature" => 0.4,
-    "model" => "text-davinci-003"
+    "model" => @model
   }
   # header
   @headers [
@@ -49,7 +50,6 @@ defmodule ValidityServer.Expert.Gpt do
 
   # Handle the success reponse and its codes that came back from the HTTP post
   defp handle_validity_resp(resp) do
-    IO.inspect(resp)
     case resp.status_code do
       400 ->
         {
