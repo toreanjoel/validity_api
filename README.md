@@ -10,7 +10,7 @@ Open AI API - used in this case with a browser based extention that will make re
 ### Prerequesites
 - Erlang/Elixir
 - Python
-- `mix deos.get` to install the dependencies
+- `mix deps.get` to install the dependencies
 - `iex -S mix phx.server`
 
 ### Note
