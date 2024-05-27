@@ -3,7 +3,7 @@ Open AI API - used in this case with a browser based extention that will make re
 
 ## Things to note:
 - There are no tests
-- This is a MVP so it will be deprecated as a test
+- This is a MVP
 - No exDocs or docs for the repo
 ---
 
