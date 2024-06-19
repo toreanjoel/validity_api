@@ -1,5 +1,5 @@
 ## Validity (deprecating)
-Open AI API - used in this case with a browser based extention that will make request with a Youtube URL video ID to check the validity of the video captions itself.
+Open AI - used in this case with a browser based extention that will make request with a Youtube URL video ID to check the validity of the video captions itself.
 
 ## Things to note:
 - There are no tests
