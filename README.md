@@ -1,11 +1,6 @@
 ## Validity
 Open AI - used in this case with a browser based extention that will make request with a Youtube URL video ID to check the validity of the video captions itself.
 
-## Things to note:
-- There are no tests
-- No exDocs or docs for the repo
----
-
 ### Prerequesites
 - Erlang/Elixir
 - Python
