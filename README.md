@@ -1,5 +1,5 @@
 ## Validity
-Open AI - used in this case with a browser based extention that will make request with a Youtube URL video ID to check the validity of the video captions itself.
+A browser extention that will make request with a Youtube URL video ID to check the validity of the video captions itself.
 
 ### Prerequesites
 - Erlang/Elixir
